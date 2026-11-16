@@ -244,3 +244,30 @@ dialog::backdrop{background:rgba(20,20,16,.7)}
   .b-item{transition:none;opacity:1;transform:none}
   .lightbox,.lightbox figure{animation:none}
 }
+
+/* presentación bajo la portada (¿Quiénes somos? + servicios, del portafolio) */
+.presenta{background:var(--sand)}
+.pr-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:7vw;align-items:start}
+.presenta h2{font-size:clamp(44px,4.4vw,64px);color:var(--brown)}
+.presenta h2::after{content:"";display:block;width:56px;height:4px;background:var(--terra);margin:18px 0 30px;border-radius:1px}
+.presenta p{color:var(--text)}
+.presenta p b{color:var(--brown);letter-spacing:.04em}
+.keys{list-style:none;margin-top:44px}
+.keys li{display:flex;align-items:center;gap:14px;font-size:21px;color:var(--brown);padding:10px 0;border-bottom:1px solid rgba(67,41,24,.2);max-width:340px}
+.keys .k2{margin-left:40px}.keys .k3{margin-left:80px}
+.kd{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;color:#fff}
+.k1 .kd{background:var(--olive)}.k2 .kd{background:var(--terra)}.k3 .kd{background:#775248}
+.kd .ic{width:28px;height:28px}
+.svc{list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:44px}
+.svc li{position:relative;border-top:1px solid rgba(67,41,24,.35);padding:22px 0 34px}
+.sn{position:absolute;right:0;top:20px;font-family:"Bebas Neue",sans-serif;font-size:34px;color:var(--terra-t-sand);line-height:1}
+.si{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--forest);color:#fff;margin-bottom:16px}
+.svc li:nth-child(2) .si,.svc li:nth-child(3) .si{background:var(--terra)}
+.si .ic{width:32px;height:32px}
+.svc h3{font-family:Abel,sans-serif;font-weight:700;font-size:20px;line-height:1.25;letter-spacing:0;color:var(--brown);margin-bottom:8px;padding-right:44px}
+.svc p{font-size:17px;color:var(--muted-sand)}
+@media (max-width:900px){
+  .pr-grid{grid-template-columns:1fr;gap:70px}
+  .svc{grid-template-columns:1fr}
+  .keys .k2{margin-left:24px}.keys .k3{margin-left:48px}
+}
