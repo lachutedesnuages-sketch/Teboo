@@ -69,3 +69,28 @@ document.getElementById('f').addEventListener('submit', e => {
   note.innerHTML = `Tu mensaje está listo: <a href="${url}" target="_blank" rel="noopener">abrir WhatsApp para enviarlo →</a>`;
   window.open(url, '_blank');
 });
+
+// Galería bento: arrastrar para recorrer, clic para ampliar
+const bento = document.querySelector('.bento');
+if (bento) {
+  new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { bento.classList.add('in'); o.disconnect(); } }), { threshold: .2 }).observe(bento);
+  let down = false, moved = false, sx = 0, sl = 0;
+  bento.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = bento.scrollLeft; });
+  addEventListener('pointermove', e => {
+    if (!down) return;
+    const dx = e.clientX - sx;
+    if (Math.abs(dx) > 5) { moved = true; bento.classList.add('dragging'); }
+    bento.scrollLeft = sl - dx;
+  });
+  addEventListener('pointerup', () => { down = false; setTimeout(() => bento.classList.remove('dragging'), 0); });
+  bento.addEventListener('keydown', e => { if (e.key === 'ArrowRight') bento.scrollBy({ left: 300, behavior: 'smooth' }); if (e.key === 'ArrowLeft') bento.scrollBy({ left: -300, behavior: 'smooth' }); });
+  const lb = document.getElementById('lb'), lbImg = lb.querySelector('img'), lbCap = lb.querySelector('figcaption');
+  const close = () => { lb.hidden = true; };
+  bento.querySelectorAll('.b-item').forEach(b => b.addEventListener('click', () => {
+    if (moved) return;
+    lbImg.src = b.dataset.src; lbImg.alt = b.dataset.t; lbCap.textContent = `${b.dataset.t} — ${b.dataset.d}`;
+    lb.hidden = false; lb.querySelector('.lb-x').focus();
+  }));
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('.lb-x')) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) close(); });
+}
