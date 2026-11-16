@@ -37,10 +37,15 @@ rows.forEach(r => {
 const modal = document.getElementById('modal'), mb = document.getElementById('mb');
 function openP(id) {
   const p = P[id]; if (!p) return;
-  const img = p.img ? `<div class="m-img"><img src="${p.img}" alt="${p.t}"></div>` : `<div class="m-img none">Fotos de ${p.t} — próximamente</div>`;
-  mb.innerHTML = `<div class="m">${img}<div class="m-b"><h2>${p.t}</h2><p class="sub">${p.sub}</p>
+  const imgs = p.imgs || [];
+  const thumbs = imgs.length > 1 ? `<div class="m-th">${imgs.map((s, i) => `<button data-i="${i}"${i ? '' : ' class="on"'}><img src="${s}" alt=""></button>`).join('')}</div>` : '';
+  mb.innerHTML = `<div class="m"><div class="m-img"><img id="mainimg" src="${imgs[0]}" alt="${p.t}">${thumbs}</div><div class="m-b"><h2>${p.t}</h2><p class="sub">${p.sub}</p>
    <dl><dt>Lugar</dt><dd>${p.loc}</dd><dt>Área</dt><dd>${p.area}</dd><dt>Año</dt><dd>${p.y}</dd><dt>Estado</dt><dd>${p.st}</dd><dt>Materiales</dt><dd>${p.mat}</dd></dl>
    <p>${p.txt}</p></div></div>`;
+  mb.querySelectorAll('.m-th button').forEach(b => b.addEventListener('click', () => {
+    mb.querySelector('#mainimg').src = imgs[b.dataset.i];
+    mb.querySelectorAll('.m-th button').forEach(x => x.classList.toggle('on', x === b));
+  }));
   modal.showModal();
 }
 rows.forEach(r => r.querySelector('button').addEventListener('click', e => openP(e.currentTarget.dataset.id)));

@@ -166,4 +166,17 @@ dialog::backdrop{background:rgba(20,20,16,.7)}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .peek[hidden]{display:none}
-.m-img img{object-fit:contain;background:#fff}
+
+
+/* fotos del portafolio */
+.team img{width:100%;aspect-ratio:1;object-fit:cover;margin-bottom:14px;max-width:260px}
+.g-grid img:nth-child(even){margin-top:0}
+.g-grid img:nth-child(4n+2),.g-grid img:nth-child(4n+4){margin-top:60px}
+.g-grid img:nth-child(n+5){aspect-ratio:3/4}
+.m-img{display:flex;flex-direction:column;background:#fff}
+.m-img>img{width:100%;height:min(62vh,560px);object-fit:cover;background:#fff}
+.m-th{display:flex;gap:6px;padding:8px;overflow-x:auto;background:var(--paper)}
+.m-th button{flex:0 0 76px;height:56px;border:0;padding:0;background:none;cursor:pointer;opacity:.55;outline-offset:2px}
+.m-th button.on,.m-th button:hover{opacity:1;outline:1px solid var(--brown)}
+.m-th img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.m-img>img{height:46vh}.team img{max-width:200px}}
