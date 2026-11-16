@@ -37,13 +37,17 @@ Es la versión web del portafolio 2026. La estructura y los textos salen del tab
 Sitio estático, sin frameworks ni dependencias: se puede abrir directamente en el navegador.
 
 ```
-index.html     la página completa
-style.css      estilos (paleta del logo, tipografías Bebas Neue y Abel)
-main.js        menú, filtros del portafolio, fichas y formulario → WhatsApp
-img/           fotos, video de portada, bocetos y logo
+index.html     página en español (generada)
+en/index.html  página en inglés (generada)
+data.py        proyectos y galería, en español e inglés  ← aquí se editan los textos de proyectos
+build.py       textos de la página en ES/EN y generación de los dos HTML
+style.css      estilos (paleta del logo, Bebas Neue y Abel, contrastes AA)
+main.js        menú, video, filtros, fichas, galería arrastrable y formulario → WhatsApp
+img/           fotos (img/p = proyectos), videos de portada (escritorio y móvil), logo, imagen para compartir
 docs/          capturas de este README
-build.py       script que genera index.html a partir de los datos de los proyectos (no se publica)
 ```
+
+Después de cambiar textos o fotos: `python3 build.py`.
 
 Para verlo en local:
 
@@ -61,6 +65,9 @@ El sitio se publica con **Vercel** conectado a este repositorio: cada cambio en 
 - Fotos JPG de cada proyecto (las del Drive están en RAW .CR3)
 - Más videos de dron cortos (menos de 10 MB) para montar los mejores momentos en la portada
 - Textos de presentación de Santiago y José
-- Texto definitivo de *Cabañas Lago Calima*
-- Versión en inglés, tienda (libro, camisas) y enlaces a las demás redes sociales
+- Revisar la traducción al inglés
+- Texto definitivo de *Cabañas Lago Calima* y área de Baños Tierrita Linda
+- Cifras reales (m² construidos, personas formadas) si el equipo quiere mostrarlas
+- Tienda (libro, camisas) y enlaces a las demás redes sociales
+- Poner el dominio definitivo en `SITE` (build.py) para que la vista previa al compartir funcione en todas las apps
 - Dominio propio y hosting definitivo si se aprueba el sitio
