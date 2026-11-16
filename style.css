@@ -271,3 +271,11 @@ dialog::backdrop{background:rgba(20,20,16,.7)}
   .svc{grid-template-columns:1fr}
   .keys .k2{margin-left:24px}.keys .k3{margin-left:48px}
 }
+.archis{list-style:none;display:flex;gap:34px;margin:0 0 34px}
+.archis li{display:flex;align-items:center;gap:14px}
+.archis img{width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:center 30%;border:3px solid var(--paper)}
+.archis span{display:flex;flex-direction:column;font-size:16px;color:var(--muted-sand);line-height:1.3}
+.archis b{font-family:"Bebas Neue",sans-serif;font-weight:400;font-size:26px;color:var(--brown);letter-spacing:.01em}
+.proceso-s .proceso{margin-top:0}
+.proceso-s .big{max-width:30ch}
+@media (max-width:900px){.archis{flex-direction:column;gap:14px}.archis img{width:80px;height:80px}}
