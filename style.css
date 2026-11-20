@@ -281,3 +281,15 @@ dialog::backdrop{background:rgba(20,20,16,.7)}
 .nav .lang span[aria-current]{font-weight:700;text-decoration:underline;text-underline-offset:5px}
 .proceso .proc-head{grid-template-columns:1fr auto;row-gap:14px}
 .proceso .proc-head .sec{grid-column:1/-1}
+
+/* Formaciones como sección completa */
+.formaciones{background:var(--paper);border-top:1px solid var(--line)}
+.formaciones h2{font-size:clamp(40px,4.2vw,62px);max-width:18ch;margin-bottom:26px}
+.formaciones .btn{margin-top:6px}
+.f-grid{align-items:start}
+.f-grid figure{margin-top:70px}
+
+/* ficha centrada (el reset de márgenes la pegaba arriba a la izquierda) */
+dialog{margin:auto;position:fixed;inset:0}
+#map .leaflet-tile-pane{filter:sepia(.25) saturate(.8)}
+@media (max-width:900px){.f-grid figure{margin-top:0}}
