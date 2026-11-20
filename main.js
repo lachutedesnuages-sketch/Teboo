@@ -28,28 +28,41 @@ if (video) {
   }
 }
 
-// Filtros del portafolio
+// Portafolio: mapa (Leaflet) + leyenda que filtra mapa y lista
 const rows = [...document.querySelectorAll('.row')];
-function filter(f) {
-  document.querySelectorAll('.filters button').forEach(b => { const on = b.dataset.f === f; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
-  rows.forEach(r => r.hidden = !(f === 'all' || r.dataset.g === f));
+const COL = { construccion: '#B23A2B', taller: '#4F6B32', diseno: '#C08A2E' };
+const active = new Set(Object.keys(COL));
+const markers = [];
+const mapEl = document.getElementById('map');
+if (mapEl && window.L) {
+  const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    maxZoom: 18, subdomains: 'abcd',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }).addTo(map);
+  const pts = [];
+  Object.entries(P).forEach(([id, p]) => {
+    const m = L.circleMarker([p.lat, p.lng], { radius: 9, color: '#fff', weight: 2, fillColor: COL[p.cat], fillOpacity: 1 });
+    const html = `<div class="pop"><img src="${p.imgs[0]}" alt=""><b>${p.t}</b><span>${p.loc} · ${p.y}</span><span class="pc"><i class="dot ${p.cat}"></i>${TX.cats[p.cat]}</span><button class="link-btn" data-open="${id}">${TX.view} →</button></div>`;
+    m.bindPopup(html, { maxWidth: 240, minWidth: 220 });
+    m.bindTooltip(p.t, { direction: 'top', offset: [0, -8] });
+    m.cat = p.cat; m.addTo(map); markers.push(m); pts.push([p.lat, p.lng]);
+  });
+  map.fitBounds(pts, { padding: [40, 40] });
+  // la rueda del ratón solo hace zoom después de hacer clic en el mapa (para no atrapar el scroll de la página)
+  map.on('click focus', () => map.scrollWheelZoom.enable());
+  mapEl.addEventListener('mouseleave', () => map.scrollWheelZoom.disable());
+  window._teboomap = map;
 }
-document.querySelectorAll('.filters button').forEach(b => b.addEventListener('click', () => filter(b.dataset.f)));
-document.querySelectorAll('[data-filter]').forEach(a => a.addEventListener('click', () => filter(a.dataset.filter)));
-
-// Vista previa de la foto al pasar el ratón por un proyecto (solo escritorio)
-const peek = document.querySelector('.peek');
-const index = document.querySelector('.index');
-const canHover = matchMedia('(hover: hover)').matches;
-rows.forEach(r => {
-  const b = r.querySelector('button');
-  if (canHover) {
-    b.addEventListener('mouseenter', () => { peek.src = b.dataset.img; peek.hidden = false; });
-    b.addEventListener('mouseleave', () => peek.hidden = true);
-    b.addEventListener('mousemove', e => { const r0 = index.getBoundingClientRect(); peek.style.top = (e.clientY - r0.top - 110) + 'px'; });
-  }
-  b.addEventListener('click', () => openP(b.dataset.id, b));
-});
+document.querySelectorAll('.legend .lg').forEach(b => b.addEventListener('click', () => {
+  const c = b.dataset.cat;
+  if (active.has(c) && active.size > 1) active.delete(c); else active.add(c);
+  document.querySelectorAll('.legend .lg').forEach(x => { const on = active.has(x.dataset.cat); x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
+  markers.forEach(m => { const on = active.has(m.cat); if (on && !window._teboomap.hasLayer(m)) m.addTo(window._teboomap); if (!on) m.remove(); });
+  rows.forEach(r => r.hidden = !active.has(r.dataset.g));
+}));
+rows.forEach(r => { const b = r.querySelector('button'); b.addEventListener('click', () => openP(b.dataset.id, b)); });
+document.addEventListener('click', e => { const b = e.target.closest('.link-btn[data-open]'); if (b) openP(b.dataset.open, b); });
 
 // Ficha del proyecto con galería
 const modal = document.getElementById('modal'), mb = document.getElementById('mb');
@@ -67,7 +80,7 @@ function openP(id, from) {
     mb.querySelector('#mainimg').src = imgs[b.dataset.i];
     mb.querySelectorAll('.m-th button').forEach(x => { x.classList.toggle('on', x === b); x.toggleAttribute('aria-current', x === b); });
   }));
-  modal.showModal();
+  if (!modal.open) modal.showModal();
 }
 modal.querySelector('.x').addEventListener('click', () => modal.close());
 modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });

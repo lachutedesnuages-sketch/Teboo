@@ -39,8 +39,10 @@ Sitio estático, sin frameworks ni dependencias: se puede abrir directamente en 
 ```
 index.html     página en español (generada)
 en/index.html  página en inglés (generada)
-data.py        proyectos y galería, en español e inglés  ← aquí se editan los textos de proyectos
-build.py       textos de la página en ES/EN y generación de los dos HTML
+fr/index.html  página en francés (generada)
+data.py        proyectos (con coordenadas para el mapa) y galería, en ES/EN/FR  ← aquí se editan los textos de proyectos
+build.py       textos de la página en ES/EN/FR y generación de los tres HTML
+vendor/        Leaflet (mapa del portafolio)
 style.css      estilos (paleta del logo, Bebas Neue y Abel, contrastes AA)
 main.js        menú, video, filtros, fichas, galería arrastrable y formulario → WhatsApp
 img/           fotos (img/p = proyectos), videos de portada (escritorio y móvil), logo, imagen para compartir
@@ -65,7 +67,8 @@ El sitio se publica con **Vercel** conectado a este repositorio: cada cambio en 
 - Fotos JPG de cada proyecto (las del Drive están en RAW .CR3)
 - Más videos de dron cortos (menos de 10 MB) para montar los mejores momentos en la portada
 - Textos de presentación de Santiago y José
-- Revisar la traducción al inglés
+- Revisar las traducciones al inglés y al francés
+- Confirmar la ubicación de cada proyecto en el mapa (hoy: municipio aproximado, `lat`/`lng` en data.py)
 - Texto definitivo de *Cabañas Lago Calima* y área de Baños Tierrita Linda
 - Cifras reales (m² construidos, personas formadas) si el equipo quiere mostrarlas
 - Tienda (libro, camisas) y enlaces a las demás redes sociales
